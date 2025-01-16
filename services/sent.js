@@ -9,6 +9,7 @@ const getRequest = async (endpoint, params) => {
       headers: {
         "Content-Type": "application/json", // Adjust if your API expects a different content type
         Authorization: `Bearer ${token}`, // Include the Bearer token
+        credentials: "include",
       },
     });
     // const { data: response } = await request.get(endpoint, { params });
@@ -42,6 +43,7 @@ const postRequest = async (
         "Content-Type": "application/json", // Adjust if your API expects a different content type
         Authorization: `Bearer ${token}`, // Include the Bearer token
       },
+      credentials: "include",
     });
     // const { data: response } = await request[method](endpoint, payload);
     return response;
