@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import request from "./helpers";
+import request from "./fetchreq";
 
 const getRequest = async (endpoint, params) => {
   try {
-    const { data: response } = await request.get(endpoint, { params });
+    const response = await request(endpoint);
+    // const { data: response } = await request.get(endpoint, { params });
     return response;
   } catch (error) {
     throw error?.response?.data;
@@ -27,7 +28,11 @@ const postRequest = async (
   }
 
   try {
-    const { data: response } = await request[method](endpoint, payload);
+    const response = await request(endpoint, {
+      method,
+      body: JSON.stringify(payload),
+    });
+    // const { data: response } = await request[method](endpoint, payload);
     return response;
   } catch (error) {
     throw error?.response?.data;

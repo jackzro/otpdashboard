@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import request from "./helpers";
+import request from "./fetchreq";
 
 const getRequest = async (endpoint, params) => {
   try {
-    const { data: response } = await request.get(endpoint, { params });
+    const response = await request(endpoint);
+    // const { data: response } = await request.get(endpoint, { params });
     return response;
   } catch (error) {
     throw error?.response?.data;
@@ -27,7 +28,11 @@ const postRequest = async (
   }
 
   try {
-    const { data: response } = await request[method](endpoint, payload);
+    const response = await request(endpoint, {
+      method,
+      body: JSON.stringify(payload),
+    });
+    // const { data: response } = await request[method](endpoint, payload);
     return response;
   } catch (error) {
     throw error?.response?.data;
@@ -36,17 +41,30 @@ const postRequest = async (
 
 export const loginRequest = async ({ username, password }) => {
   try {
-    const { data: response } = await request.post("/auth/login", {
-      username,
-      password,
+    const data = await request("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
     });
+
     return {
-      token: response.access_token,
-      payload: response.payload,
+      token: data.access_token,
+      payload: data.payload,
     };
   } catch (error) {
     throw error?.response?.data || {};
   }
+  // try {
+  //   const { data: response } = await request.post("/auth/login", {
+  //     username,
+  //     password,
+  //   });
+  //   return {
+  //     token: response.access_token,
+  //     payload: response.payload,
+  //   };
+  // } catch (error) {
+  //   throw error?.response?.data || {};
+  // }
 };
 
 export const getSent = () => getRequest("/sent");
