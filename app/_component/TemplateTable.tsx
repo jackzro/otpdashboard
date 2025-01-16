@@ -7,6 +7,7 @@ import { DateRangePicker } from "@nextui-org/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { toast } from "sonner";
 import { useUserBalance } from "../../services/usersms";
+//@ts-ignore
 
 function TemplateTable() {
   const [value, setValue] = React.useState({

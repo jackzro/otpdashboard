@@ -172,7 +172,6 @@ export default function TableTemplate() {
   const [page, setPage] = React.useState(1);
 
   const { data, isLoading, error } = useSentbyUsername();
-  console.log(data);
   const rowsPerPage = 10;
 
   const pages = Math.ceil(users.length / rowsPerPage);

@@ -1,15 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "./fetchreq";
-import Cookies from "js-cookie";
-const token = Cookies.get("nextauth.token");
-console.log("token", token);
+import nookies from "nookies";
 
-const getRequest = async (endpoint, params) => {
+const getRequest = async (endpoint, params, token) => {
   try {
     const response = await request(endpoint, {
       headers: {
         "Content-Type": "application/json", // Adjust if your API expects a different content type
-        Authorization: `Bearer ${token}`, // Include the Bearer token
+        Authorization: `Bearer ${nookies.get("nextauth.token")["nextauth.token"]}`, // Include the Bearer token
         credentials: "include",
       },
     });
@@ -42,7 +40,7 @@ const postRequest = async (
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json", // Adjust if your API expects a different content type
-        Authorization: `Bearer ${token}`, // Include the Bearer token
+        Authorization: `Bearer ${nookies.get("nextauth.token")["nextauth.token"]}`, // Include the Bearer token
         credentials: "include",
       },
     });
