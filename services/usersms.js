@@ -69,3 +69,8 @@ export const loginRequest = async ({ username, password }) => {
 
 export const getUserBalance = () => getRequest("/usersms/balance");
 export const useUserBalance = () => useQuery(["balance"], getUserBalance);
+
+export const postEx = (body) =>
+  postRequest(`/usersms/example`, body, false, "post");
+export const usePostEx = () =>
+  useMutation({ mutationFn: postEx, mutationKey: ["ex"] });
