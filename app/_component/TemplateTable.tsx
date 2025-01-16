@@ -70,6 +70,7 @@ function TemplateTable() {
 
   return (
     <>
+      <Button onClickCapture={submitEx}>EXXXXX</Button>
       {loadingBalance === false && balance.length !== 0 && (
         <div className="w-full">
           <div className="flex items-center justify-center w-full pb-10">
@@ -80,7 +81,6 @@ function TemplateTable() {
               onChange={(date) => handleData(date)}
             />
           </div>
-          <Button onClickCapture={submitEx}>EXXXXX</Button>
 
           <div className="flex items-center justify-between max-w-full px-10 pb-10 text-2xl">
             <div>
