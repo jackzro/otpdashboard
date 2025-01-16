@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "./fetchreq";
 import Cookies from "js-cookie";
 const token = Cookies.get("nextauth.token");
+console.log("token", token);
 
 const getRequest = async (endpoint, params) => {
   try {
