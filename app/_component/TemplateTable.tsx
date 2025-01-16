@@ -6,8 +6,7 @@ import TableTemplateData from "./TableData";
 import { DateRangePicker } from "@nextui-org/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { toast } from "sonner";
-import { useUserBalance, usePostEx } from "../../services/usersms";
-import { Button } from "@nextui-org/button";
+import { useUserBalance } from "../../services/usersms";
 
 function TemplateTable() {
   const [value, setValue] = React.useState({
@@ -18,7 +17,6 @@ function TemplateTable() {
   const [total, setTotal] = React.useState(0);
   const { data: balance, isLoading: loadingBalance } = useUserBalance();
   const { mutate: postSent } = usePostSent();
-  const { mutate: postEx } = usePostEx();
   const handleData = async (date: any) => {
     setTotal(0);
     setValue({
@@ -49,28 +47,8 @@ function TemplateTable() {
     );
   };
 
-  const submitEx = () => {
-    postEx(
-      {
-        //@ts-ignore
-        start: date?.start,
-        //@ts-ignore
-        end: date?.end,
-      },
-      {
-        onSuccess(data) {
-          console.log(data);
-        },
-        onError(err) {
-          //   console.log(err);
-        },
-      }
-    );
-  };
-
   return (
     <>
-      <Button onClickCapture={submitEx}>EXXXXX</Button>
       {loadingBalance === false && balance.length !== 0 && (
         <div className="w-full">
           <div className="flex items-center justify-center w-full pb-10">
