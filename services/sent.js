@@ -1,9 +1,17 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "./fetchreq";
+import Cookies from "js-cookie";
+import { headers } from "next/headers";
 
 const getRequest = async (endpoint, params) => {
   try {
-    const response = await request(endpoint);
+    const token = Cookies.get("nextauth.token");
+    const response = await request(endpoint, {
+      headers: {
+        "Content-Type": "application/json", // Adjust if your API expects a different content type
+        Authorization: `Bearer ${token}`, // Include the Bearer token
+      },
+    });
     // const { data: response } = await request.get(endpoint, { params });
     return response;
   } catch (error) {
