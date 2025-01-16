@@ -1,9 +1,16 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "./fetchreq";
+import Cookies from "js-cookie";
+const token = Cookies.get("nextauth.token");
 
 const getRequest = async (endpoint, params) => {
   try {
-    const response = await request(endpoint);
+    const response = await request(endpoint, {
+      headers: {
+        "Content-Type": "application/json", // Adjust if your API expects a different content type
+        Authorization: `Bearer ${token}`, // Include the Bearer token
+      },
+    });
     // const { data: response } = await request.get(endpoint, { params });
     return response;
   } catch (error) {
@@ -31,6 +38,10 @@ const postRequest = async (
     const response = await request(endpoint, {
       method,
       body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json", // Adjust if your API expects a different content type
+        Authorization: `Bearer ${token}`, // Include the Bearer token
+      },
     });
     // const { data: response } = await request[method](endpoint, payload);
     return response;
