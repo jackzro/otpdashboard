@@ -48,8 +48,6 @@ function TemplateTable() {
     );
   };
 
-  console.log(res);
-
   return (
     <>
       {loadingBalance === false && balance.length !== 0 && (

@@ -52,8 +52,9 @@ const postRequest = async (
 };
 
 export const sendVoiceOtp = async ({ otp, phoneNumber, id }) => {
+  const API_VO = process.env.NEXT_PUBLIC_VOICEOTP;
   try {
-    const response = await fetch("http://otp.sms123.online:8083/api/voiceotp", {
+    const response = await fetch(API_VO, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

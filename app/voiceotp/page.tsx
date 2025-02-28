@@ -32,12 +32,6 @@ export default function VoiceOtp() {
   const isAuth = checkAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    // if (isAuth) {
-    //   router.push("/");
-    // }
-  }, [router, isAuth]);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,7 +54,6 @@ export default function VoiceOtp() {
       } else if (voiceOtp.status === false) {
         toast.error(voiceOtp.balance);
       }
-      console.log("voice,", voiceOtp);
     } catch (error) {
       console.log("erororo", error);
     }
