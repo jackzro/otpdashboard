@@ -51,6 +51,28 @@ const postRequest = async (
   }
 };
 
+export const sendVoiceOtp = async ({ otp, phoneNumber, id }) => {
+  try {
+    const response = await fetch("http://otp.sms123.online:8083/api/voiceotp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        otp,
+        phoneNumber,
+        id,
+      }),
+    });
+    const data = await response.json();
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const loginRequest = async ({ username, password }) => {
   try {
     const data = await request("/auth/login", {

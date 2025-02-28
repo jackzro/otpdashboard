@@ -1,5 +1,16 @@
 export type SiteConfig = typeof siteConfig;
 
+export const menuConfig = {
+  name: "SMS 123",
+  description: "Provide all the messages you want.",
+  navItems: [
+    {
+      label: "Test VoiceOTP",
+      href: "/voiceotp",
+    },
+  ],
+};
+
 export const siteConfig = {
   name: "SMS 123",
   description: "Provide all the messages you want.",

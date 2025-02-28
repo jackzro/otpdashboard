@@ -16,7 +16,7 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
-import { siteConfig } from "@/config/site";
+import { menuConfig, siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import {
   TwitterIcon,
@@ -84,22 +84,22 @@ export const Navbar = () => {
                 <p></p>
               </NextLink>
             </NavbarBrand>
-            {/* <ul className="justify-start hidden gap-4 ml-2 lg:flex">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
-        </ul> */}
+            <ul className="justify-start hidden gap-4 ml-2 lg:flex">
+              {menuConfig.navItems.map((item) => (
+                <NavbarItem key={item.href}>
+                  <NextLink
+                    className={clsx(
+                      linkStyles({ color: "foreground" }),
+                      "data-[active=true]:text-primary data-[active=true]:font-medium"
+                    )}
+                    color="foreground"
+                    href={item.href}
+                  >
+                    {item.label}
+                  </NextLink>
+                </NavbarItem>
+              ))}
+            </ul>
           </NavbarContent>
 
           {user !== null ? (
@@ -160,7 +160,7 @@ export const Navbar = () => {
           <GithubIcon className="text-default-500" />
         </Link> */}
             {/* <ThemeSwitch /> */}
-            {/* <NavbarMenuToggle /> */}
+            <NavbarMenuToggle />
             <NavbarItem className="md:flex">
               <Button
                 // isExternal
@@ -176,9 +176,9 @@ export const Navbar = () => {
           </NavbarContent>
 
           <NavbarMenu>
-            {searchInput}
+            {/* {searchInput} */}
             <div className="flex flex-col gap-2 mx-4 mt-2">
-              {siteConfig.navMenuItems.map((item, index) => (
+              {menuConfig.navItems.map((item, index) => (
                 <NavbarMenuItem key={`${item}-${index}`}>
                   <Link
                     color={
@@ -188,7 +188,7 @@ export const Navbar = () => {
                           ? "danger"
                           : "foreground"
                     }
-                    href="#"
+                    href={item.href}
                     size="lg"
                   >
                     {item.label}
