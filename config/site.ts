@@ -8,6 +8,10 @@ export const menuConfig = {
       label: "Test VoiceOTP",
       href: "/voiceotp",
     },
+    {
+      label: "Marketing",
+      href: "/marketing",
+    },
   ],
 };
 

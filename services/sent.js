@@ -67,10 +67,55 @@ export const sendVoiceOtp = async ({ otp, phoneNumber, id }) => {
     });
     const data = await response.json();
 
-    console.log(data);
+    return data;
+  } catch (error) {}
+};
+
+export const sendMarketingOtp = async ({ message, phone, id }) => {
+  const API_VO = process.env.NEXT_PUBLIC_MRKTOTP;
+  try {
+    const response = await fetch(API_VO, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message,
+        phone,
+        id,
+      }),
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {}
+};
+
+export const sendMarketingOtp2 = async ({ message, phone, id }) => {
+  const API_VO = process.env.NEXT_PUBLIC_MRKTOTP;
+
+  try {
+    console.log(API_VO);
+    const response = await fetch(API_VO, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2M5YzQ0MjE3MTVlNTAwMTJkMzNjZjciLCJpYXQiOjE3NDEyNzYzNDB9.iDCOZLYjEi6zW-rSVG3evlIrCSdZcSeR0lqMIIEayTA",
+      },
+      body: JSON.stringify({
+        message,
+        phone,
+        type: "marketing",
+        id,
+      }),
+    });
+    const data = await response.json();
+
+    console.log("wkkwkw", data);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log("eorr", error);
   }
 };
 
