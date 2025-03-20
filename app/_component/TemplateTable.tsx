@@ -1,6 +1,6 @@
 "use client";
 
-import { usePostSent } from "@/services/sent";
+import { usePostReport, usePostSent } from "@/services/sent";
 import React from "react";
 import TableTemplateData from "./TableData";
 import { DateRangePicker } from "@nextui-org/date-picker";
@@ -15,9 +15,11 @@ function TemplateTable() {
     end: parseDate("2025-01-08"),
   });
   const [res, setRes] = React.useState([]);
+  const [status, setStatus] = React.useState({});
   const [total, setTotal] = React.useState(0);
   const { data: balance, isLoading: loadingBalance } = useUserBalance();
   const { mutate: postSent } = usePostSent();
+  const { mutate: postReport } = usePostReport();
   const handleData = async (date: any) => {
     setTotal(0);
     setValue({
@@ -39,6 +41,24 @@ function TemplateTable() {
           data.map((item: any) =>
             setTotal((prev: any) => prev + Number(item.row_count))
           );
+          toast.success("Successfully !!!");
+        },
+        onError(err) {
+          //   console.log(err);
+        },
+      }
+    );
+
+    postReport(
+      {
+        //@ts-ignore
+        start: date?.start,
+        //@ts-ignore
+        end: date?.end,
+      },
+      {
+        onSuccess(data) {
+          setStatus(data);
           toast.success("Successfully !!!");
         },
         onError(err) {
@@ -76,6 +96,21 @@ function TemplateTable() {
                 <></>
               )}
             </div>
+
+            <p>
+              DELIV :{" "}
+              {
+                //@ts-ignore
+                status["DELIVRD"] ? status["DELIVRD"] : 0
+              }
+            </p>
+            <p>
+              UNDELIV :{" "}
+              {
+                //@ts-ignore
+                status["UNDELIV"] ? status["UNDELIV"] : 0
+              }
+            </p>
             <div>Total : {total}</div>
           </div>
           {res.length !== 0 ? (

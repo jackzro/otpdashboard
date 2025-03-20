@@ -153,3 +153,8 @@ export const useSentbyUsername = () => useQuery(["sent"], getSent);
 export const postSent = (body) => postRequest(`/sent`, body, false, "post");
 export const usePostSent = () =>
   useMutation({ mutationFn: postSent, mutationKey: ["sentpost"] });
+
+export const postReport = (body) =>
+  postRequest(`/sent/report`, body, false, "post");
+export const usePostReport = () =>
+  useMutation({ mutationFn: postReport, mutationKey: ["report"] });
