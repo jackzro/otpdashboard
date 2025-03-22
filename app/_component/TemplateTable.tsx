@@ -10,9 +10,14 @@ import { useUserBalance } from "../../services/usersms";
 //@ts-ignore
 
 function TemplateTable() {
+  const today = new Date().toISOString().split("T")[0];
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate() + 7);
+
+  const futureDate = endDate.toISOString().split("T")[0];
   const [value, setValue] = React.useState({
-    start: parseDate("2025-01-01"),
-    end: parseDate("2025-01-08"),
+    start: parseDate(today),
+    end: parseDate(futureDate),
   });
   const [res, setRes] = React.useState([]);
   const [status, setStatus] = React.useState({});
@@ -81,7 +86,7 @@ function TemplateTable() {
             />
           </div>
 
-          <div className="flex items-center justify-between max-w-full px-10 pb-10 text-2xl">
+          <div className="grid max-w-full grid-rows-1 px-10 pb-10 text-2xl lg:grid-cols-4 sm:grid-cols-2">
             <div>
               Balance :
               {loadingBalance === false &&
