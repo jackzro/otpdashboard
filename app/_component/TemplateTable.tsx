@@ -10,21 +10,55 @@ import { useUserBalance } from "../../services/usersms";
 //@ts-ignore
 
 function TemplateTable() {
-  const today = new Date().toISOString().split("T")[0];
-  const endDate = new Date();
-  endDate.setDate(endDate.getDate() + 7);
+  const today = new Date();
+  // Get the first day of the month
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  // Get the last day of the month
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-  const futureDate = endDate.toISOString().split("T")[0];
+  // Format as YYYY-MM-DD if you want to display it
+  const formatDate = (date: any) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0"); // months are 0-based
+    const dd = String(date.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   const [value, setValue] = React.useState({
-    start: parseDate(today),
-    end: parseDate(futureDate),
+    start: parseDate(formatDate(startOfMonth)),
+    end: parseDate(formatDate(endOfMonth)),
   });
+
   const [res, setRes] = React.useState([]);
   const [status, setStatus] = React.useState({});
   const [total, setTotal] = React.useState(0);
   const { data: balance, isLoading: loadingBalance } = useUserBalance();
   const { mutate: postSent } = usePostSent();
   const { mutate: postReport } = usePostReport();
+
+  React.useEffect(() => {
+    postSent(
+      {
+        //@ts-ignore
+        start: value?.start,
+        //@ts-ignore
+        end: value?.end,
+      },
+      {
+        onSuccess(data) {
+          setRes(data);
+          data.map((item: any) =>
+            setTotal((prev: any) => prev + Number(item.row_count))
+          );
+          toast.success("Successfully !!!");
+        },
+        onError(err) {
+          //   console.log(err);
+        },
+      }
+    );
+  }, []);
+
   const handleData = async (date: any) => {
     setTotal(0);
     setValue({

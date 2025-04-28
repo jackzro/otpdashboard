@@ -60,7 +60,7 @@ export default function TableTemplateData({ data }: any) {
                 //@ts-ignore
                 const dateTimeString = item.date;
                 const dateObj = new Date(dateTimeString);
-                dateObj.setDate(dateObj.getDate() + 1);
+                dateObj.setDate(dateObj.getDate());
                 const formattedDate = dateObj.toISOString().split("T")[0];
                 //@ts-ignore
                 if (columnKey === "date") {
