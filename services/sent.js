@@ -150,6 +150,9 @@ export const loginRequest = async ({ username, password }) => {
 export const getSent = () => getRequest("/sent");
 export const useSentbyUsername = () => useQuery(["sent"], getSent);
 
+export const getUser = () => getRequest("/sent/userall");
+export const useUser = () => useQuery(["userall"], getUser);
+
 export const postSent = (body) => postRequest(`/sent`, body, false, "post");
 export const usePostSent = () =>
   useMutation({ mutationFn: postSent, mutationKey: ["sentpost"] });
@@ -158,3 +161,8 @@ export const postReport = (body) =>
   postRequest(`/sent/report`, body, false, "post");
 export const usePostReport = () =>
   useMutation({ mutationFn: postReport, mutationKey: ["report"] });
+
+export const postReportVO = (body) =>
+  postRequest(`/sent/reportvo`, body, false, "post");
+export const usePostReportVO = () =>
+  useMutation({ mutationFn: postReportVO, mutationKey: ["reportvo"] });

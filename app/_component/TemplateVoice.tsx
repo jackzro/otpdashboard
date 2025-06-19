@@ -1,6 +1,6 @@
 "use client";
 
-import { usePostReport, usePostSent } from "@/services/sent";
+import { usePostReport, usePostReportVO, usePostSent } from "@/services/sent";
 import React from "react";
 import TableTemplateData from "./TableData";
 import { DateRangePicker } from "@nextui-org/date-picker";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useUserBalance } from "../../services/usersms";
 //@ts-ignore
 
-function TemplateTable({ id }: any) {
+function TemplateVoice({ id }: any) {
   const today = new Date();
   // Get the first day of the month
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -34,9 +34,27 @@ function TemplateTable({ id }: any) {
   const [total, setTotal] = React.useState(0);
   const { data: balance, isLoading: loadingBalance } = useUserBalance();
   const { mutate: postSent } = usePostSent();
-  const { mutate: postReport } = usePostReport();
+  const { mutate: postReport } = usePostReportVO();
 
   React.useEffect(() => {
+    postReport(
+      {
+        //@ts-ignore
+        start: value?.start,
+        //@ts-ignore
+        end: value?.end,
+        id: id,
+      },
+      {
+        onSuccess(data) {
+          setStatus(data);
+          toast.success("Successfully !!!");
+        },
+        onError(err) {
+          //   console.log(err);
+        },
+      }
+    );
     postSent(
       {
         //@ts-ignore
@@ -51,26 +69,6 @@ function TemplateTable({ id }: any) {
           data.map((item: any) =>
             setTotal((prev: any) => prev + Number(item.row_count))
           );
-          toast.success("Successfully !!!");
-        },
-        onError(err) {
-          //   console.log(err);
-        },
-      }
-    );
-
-    postReport(
-      {
-        //@ts-ignore
-        start: value?.start,
-        //@ts-ignore
-        end: value?.end,
-        id: id,
-      },
-      {
-        onSuccess(data) {
-          console.log("data", data);
-          setStatus(data);
           toast.success("Successfully !!!");
         },
         onError(err) {
@@ -94,11 +92,11 @@ function TemplateTable({ id }: any) {
         start: date?.start,
         //@ts-ignore
         end: date?.end,
-        id: id,
       },
       {
         onSuccess(data) {
           setRes(data);
+
           data.map((item: any) =>
             setTotal((prev: any) => prev + Number(item.row_count))
           );
@@ -116,7 +114,6 @@ function TemplateTable({ id }: any) {
         start: date?.start,
         //@ts-ignore
         end: date?.end,
-        id: id,
       },
       {
         onSuccess(data) {
@@ -143,7 +140,7 @@ function TemplateTable({ id }: any) {
             />
           </div>
 
-          <div className="grid max-w-full grid-rows-1 gap-4 px-10 pb-10 text-2xl lg:grid-cols-4 sm:grid-cols-2">
+          <div className="grid max-w-full grid-rows-2 gap-3 px-10 pb-10 text-2xl lg:grid-cols-2 sm:grid-cols-2">
             <div>
               Balance :
               {loadingBalance === false &&
@@ -163,20 +160,27 @@ function TemplateTable({ id }: any) {
               DELIV :{" "}
               {
                 //@ts-ignore
-                status["DELIVRD"] ? status["DELIVRD"] : 0
+                status["success"] ? status["success"] : 0
               }
             </p>
             <p>
               UNDELIV :{" "}
               {
                 //@ts-ignore
-                status["UNDELIV"] ? status["UNDELIV"] : 0
+                status["error"] ? status["error"] : 0
+              }
+            </p>
+            <p>
+              DETIK :{" "}
+              {
+                //@ts-ignore
+                status["detik"] ? status["detik"] : 0
               }
             </p>
             <div>Total : {total}</div>
           </div>
           {res.length !== 0 ? (
-            <TableTemplateData data={res} />
+            <TableTemplateData data={res} type={"voiceotp"} />
           ) : (
             <div className="flex items-center justify-center w-full">
               No Data
@@ -188,4 +192,4 @@ function TemplateTable({ id }: any) {
   );
 }
 
-export default TemplateTable;
+export default TemplateVoice;

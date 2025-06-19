@@ -5,13 +5,17 @@ export const menuConfig = {
   description: "Provide all the messages you want.",
   navItems: [
     {
-      label: "Test VoiceOTP",
-      href: "/voiceotp",
+      label: "",
+      href: "/",
     },
-    {
-      label: "Marketing",
-      href: "/marketing",
-    },
+    // {
+    //   label: "Test VoiceOTP",
+    //   href: "/voiceotp",
+    // },
+    // {
+    //   label: "Marketing",
+    //   href: "/marketing",
+    // },
   ],
 };
 

@@ -8,11 +8,15 @@ import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 import TableTemplate from "./_component/Table";
 import TemplateTable from "./_component/TemplateTable";
+import TemplateVoice from "./_component/TemplateVoice";
+import MasterTable from "./_component/MasterTable";
+import MainTable from "./_component/MainTable";
 
 export default function Home() {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 bg">
-      <TemplateTable />
+      <MainTable />
+      {/* <TemplateVoice /> */}
       {/* <div className="justify-center inline-block max-w-xl text-center">
         <span className={title()}>Make&nbsp;</span>
         <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
