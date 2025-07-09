@@ -52,7 +52,11 @@ export default function TableTemplateData({ data, type }: any) {
           <TableColumn key="date">Date</TableColumn>
           <TableColumn key="row_count">Total</TableColumn>
           {type === "voiceotp" ? (
-            <TableColumn key="detik">Detik</TableColumn>
+            <>
+              <TableColumn key="detik">Detik</TableColumn>
+
+              <TableColumn key="success_count">Success</TableColumn>
+            </>
           ) : (
             <></>
           )}

@@ -32,6 +32,8 @@ function TemplateTable({ id }: any) {
   const [res, setRes] = React.useState([]);
   const [status, setStatus] = React.useState({});
   const [total, setTotal] = React.useState(0);
+
+  const [userId, setUserId] = React.useState(0);
   const { data: balance, isLoading: loadingBalance } = useUserBalance();
   const { mutate: postSent } = usePostSent();
   const { mutate: postReport } = usePostReport();
@@ -47,6 +49,7 @@ function TemplateTable({ id }: any) {
       },
       {
         onSuccess(data) {
+          setUserId(id);
           setRes(data);
           data.map((item: any) =>
             setTotal((prev: any) => prev + Number(item.row_count))
@@ -65,7 +68,7 @@ function TemplateTable({ id }: any) {
         start: value?.start,
         //@ts-ignore
         end: value?.end,
-        id: id,
+        id: userId,
       },
       {
         onSuccess(data) {
@@ -81,6 +84,7 @@ function TemplateTable({ id }: any) {
   }, []);
 
   const handleData = async (date: any) => {
+    setRes([]);
     setTotal(0);
     setValue({
       //@ts-ignore
@@ -94,7 +98,7 @@ function TemplateTable({ id }: any) {
         start: date?.start,
         //@ts-ignore
         end: date?.end,
-        id: id,
+        id: userId,
       },
       {
         onSuccess(data) {

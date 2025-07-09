@@ -14,7 +14,7 @@ function TemplateVoice({ id }: any) {
   // Get the first day of the month
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   // Get the last day of the month
-  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
 
   // Format as YYYY-MM-DD if you want to display it
   const formatDate = (date: any) => {
@@ -32,11 +32,13 @@ function TemplateVoice({ id }: any) {
   const [res, setRes] = React.useState([]);
   const [status, setStatus] = React.useState({});
   const [total, setTotal] = React.useState(0);
+  const [userId, setUserId] = React.useState(0);
   const { data: balance, isLoading: loadingBalance } = useUserBalance();
   const { mutate: postSent } = usePostSent();
   const { mutate: postReport } = usePostReportVO();
 
   React.useEffect(() => {
+    setUserId(id);
     postReport(
       {
         //@ts-ignore
@@ -92,6 +94,7 @@ function TemplateVoice({ id }: any) {
         start: date?.start,
         //@ts-ignore
         end: date?.end,
+        id: userId,
       },
       {
         onSuccess(data) {
@@ -114,6 +117,7 @@ function TemplateVoice({ id }: any) {
         start: date?.start,
         //@ts-ignore
         end: date?.end,
+        id: userId,
       },
       {
         onSuccess(data) {
@@ -175,6 +179,17 @@ function TemplateVoice({ id }: any) {
               {
                 //@ts-ignore
                 status["detik"] ? status["detik"] : 0
+              }
+            </p>
+
+            <p>
+              Average :{" "}
+              {
+                //@ts-ignore
+                status["detik"]
+                  ? //@ts-ignore
+                    `${(status["detik"] / status["success"]).toFixed(2)}`
+                  : 0
               }
             </p>
             <div>Total : {total}</div>

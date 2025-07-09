@@ -15,6 +15,11 @@ function MasterTable() {
 
   const handleSelect = (value: any) => {
     setType(value.api_type);
+    if (value.id === undefined) {
+      setId(id);
+      return;
+    }
+
     setId(value.id);
   };
 
@@ -30,9 +35,9 @@ function MasterTable() {
 
       {type !== "" ? (
         type === "voiceotp" ? (
-          <TemplateVoice id={id} />
+          <TemplateVoice key={id} id={id} />
         ) : (
-          <TemplateTable id={id} />
+          <TemplateTable key={id} id={id} />
         )
       ) : null}
     </main>
