@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useUserBalance } from "../../services/usersms";
 //@ts-ignore
 
-function TemplateVoice({ id }: any) {
+function TemplateVoice({ id, user }: any) {
   const today = new Date();
   // Get the first day of the month
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -145,21 +145,6 @@ function TemplateVoice({ id }: any) {
           </div>
 
           <div className="grid max-w-full grid-rows-2 gap-3 px-10 pb-10 text-2xl lg:grid-cols-2 sm:grid-cols-2">
-            <div>
-              Balance :
-              {loadingBalance === false &&
-              //@ts-ignore
-              balance !== undefined ? (
-                balance[0].balance === null ? (
-                  ` 0`
-                ) : (
-                  `${balance[0].balance}`
-                )
-              ) : (
-                <></>
-              )}
-            </div>
-
             <p>
               DELIV :{" "}
               {
@@ -174,28 +159,47 @@ function TemplateVoice({ id }: any) {
                 status["error"] ? status["error"] : 0
               }
             </p>
-            <p>
-              DETIK :{" "}
-              {
-                //@ts-ignore
-                status["detik"] ? status["detik"] : 0
-              }
-            </p>
+            {user.username === "admin" && (
+              <>
+                <p>
+                  DETIK :{" "}
+                  {
+                    //@ts-ignore
+                    status["detik"] ? status["detik"] : 0
+                  }
+                </p>
 
-            <p>
-              Average :{" "}
-              {
-                //@ts-ignore
-                status["detik"]
-                  ? //@ts-ignore
-                    `${(status["detik"] / status["success"]).toFixed(2)}`
-                  : 0
-              }
-            </p>
-            <div>Total : {total}</div>
+                <div>
+                  Balance :
+                  {loadingBalance === false &&
+                  //@ts-ignore
+                  balance !== undefined ? (
+                    balance[0].balance === null ? (
+                      ` 0`
+                    ) : (
+                      `${balance[0].balance}`
+                    )
+                  ) : (
+                    <></>
+                  )}
+                </div>
+
+                <p>
+                  Average :{" "}
+                  {
+                    //@ts-ignore
+                    status["detik"]
+                      ? //@ts-ignore
+                        `${(status["detik"] / status["success"]).toFixed(2)}`
+                      : 0
+                  }
+                </p>
+                <div>Total : {total}</div>
+              </>
+            )}
           </div>
           {res.length !== 0 ? (
-            <TableTemplateData data={res} type={"voiceotp"} />
+            <TableTemplateData data={res} type={"voiceotp"} user={user} />
           ) : (
             <div className="flex items-center justify-center w-full">
               No Data

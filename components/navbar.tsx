@@ -85,20 +85,22 @@ export const Navbar = () => {
               </NextLink>
             </NavbarBrand>
             <ul className="justify-start hidden gap-4 ml-2 lg:flex">
-              {menuConfig.navItems.map((item) => (
-                <NavbarItem key={item.href}>
-                  <NextLink
-                    className={clsx(
-                      linkStyles({ color: "foreground" }),
-                      "data-[active=true]:text-primary data-[active=true]:font-medium"
-                    )}
-                    color="foreground"
-                    href={item.href}
-                  >
-                    {item.label}
-                  </NextLink>
-                </NavbarItem>
-              ))}
+              {menuConfig.navItems.map((item) => {
+                return (
+                  <NavbarItem key={item.href}>
+                    <NextLink
+                      className={clsx(
+                        linkStyles({ color: "foreground" }),
+                        "data-[active=true]:text-primary data-[active=true]:font-medium"
+                      )}
+                      color="foreground"
+                      href={item.href}
+                    >
+                      {item.label}
+                    </NextLink>
+                  </NavbarItem>
+                );
+              })}
             </ul>
           </NavbarContent>
 

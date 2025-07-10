@@ -35,9 +35,9 @@ function MasterTable() {
 
       {type !== "" ? (
         type === "voiceotp" ? (
-          <TemplateVoice key={id} id={id} />
+          <TemplateVoice key={id} id={id} user={user} />
         ) : (
-          <TemplateTable key={id} id={id} />
+          <TemplateTable key={id} id={id} user={user} />
         )
       ) : null}
     </main>

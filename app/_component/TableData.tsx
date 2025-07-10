@@ -12,7 +12,7 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 
-export default function TableTemplateData({ data, type }: any) {
+export default function TableTemplateData({ data, type, user }: any) {
   const [page, setPage] = React.useState(1);
 
   const rowsPerPage = 10;
@@ -53,7 +53,9 @@ export default function TableTemplateData({ data, type }: any) {
           <TableColumn key="row_count">Total</TableColumn>
           {type === "voiceotp" ? (
             <>
-              <TableColumn key="detik">Detik</TableColumn>
+              {user.username === "admin" && (
+                <TableColumn key="detik">Detik</TableColumn>
+              )}
 
               <TableColumn key="success_count">Success</TableColumn>
             </>

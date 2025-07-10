@@ -49,6 +49,7 @@ export default function VoiceOtp() {
         id: user.id,
       };
       const voiceOtp = await sendVoiceOtp(body);
+
       if (voiceOtp.status === true) {
         toast.success("success");
       } else if (voiceOtp.status === false) {
