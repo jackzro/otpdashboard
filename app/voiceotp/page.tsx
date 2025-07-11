@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { toast, Toaster } from "sonner";
 import { Input } from "@nextui-org/input";
-import { sendVoiceOtp } from "@/services/sent";
+import { sendVoiceOtp, usePostVoiceOtp } from "@/services/sent";
 import { AuthContext } from "../_component/Auth/AuthProvider";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input/input";
@@ -31,6 +31,7 @@ export default function VoiceOtp() {
   const { user }: any = useContext(AuthContext);
   const isAuth = checkAuth();
   const router = useRouter();
+  const { mutate: postVoiceOtp } = usePostVoiceOtp();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,13 +49,17 @@ export default function VoiceOtp() {
         phoneNumber: data.phoneNumber,
         id: user.id,
       };
-      const voiceOtp = await sendVoiceOtp(body);
-
-      if (voiceOtp.status === true) {
-        toast.success("success");
-      } else if (voiceOtp.status === false) {
-        toast.error(voiceOtp.balance);
-      }
+      postVoiceOtp(body, {
+        onSuccess(data) {
+          if (data.status === true) {
+            toast.success("success");
+          } else if (data.status === false) {
+            toast.error(data.balance);
+          }
+          console.log(data);
+        },
+        onError(err) {},
+      });
     } catch (error) {
       console.log("erororo", error);
     }

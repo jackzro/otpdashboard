@@ -162,6 +162,11 @@ export const postReport = (body) =>
 export const usePostReport = () =>
   useMutation({ mutationFn: postReport, mutationKey: ["report"] });
 
+export const postVoiceOtp = (body) =>
+  postRequest(`/sent/voiceotp`, body, false, "post");
+export const usePostVoiceOtp = () =>
+  useMutation({ mutationFn: postVoiceOtp, mutationKey: ["voiceotp"] });
+
 export const postReportVO = (body) =>
   postRequest(`/sent/reportvo`, body, false, "post");
 export const usePostReportVO = () =>
