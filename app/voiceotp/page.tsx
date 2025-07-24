@@ -56,7 +56,6 @@ export default function VoiceOtp() {
           } else if (data.status === false) {
             toast.error(data.balance);
           }
-          console.log(data);
         },
         onError(err) {},
       });

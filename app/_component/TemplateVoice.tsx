@@ -149,14 +149,24 @@ function TemplateVoice({ id, user }: any) {
               DELIV :{" "}
               {
                 //@ts-ignore
-                status["success"] ? status["success"] : 0
+                status["success"]
+                  ? //@ts-ignore
+                    status["success"]
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                  : 0
               }
             </p>
             <p>
               UNDELIV :{" "}
               {
                 //@ts-ignore
-                status["error"] ? status["error"] : 0
+                status["error"]
+                  ? //@ts-ignore
+                    status["error"]
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                  : 0
               }
             </p>
             {user.username === "admin" && (
@@ -165,7 +175,12 @@ function TemplateVoice({ id, user }: any) {
                   DETIK :{" "}
                   {
                     //@ts-ignore
-                    status["detik"] ? status["detik"] : 0
+                    status["detik"]
+                      ? //@ts-ignore
+                        status["detik"]
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                      : 0
                   }
                 </p>
 
@@ -194,7 +209,10 @@ function TemplateVoice({ id, user }: any) {
                       : 0
                   }
                 </p>
-                <div>Total : {total}</div>
+                <div>
+                  Total :{" "}
+                  {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                </div>
               </>
             )}
           </div>

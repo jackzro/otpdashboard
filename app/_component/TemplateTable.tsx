@@ -167,17 +167,29 @@ function TemplateTable({ id }: any) {
               DELIV :{" "}
               {
                 //@ts-ignore
-                status["DELIVRD"] ? status["DELIVRD"] : 0
+                status["DELIVRD"]
+                  ? //@ts-ignore
+                    status["DELIVRD"]
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                  : 0
               }
             </p>
             <p>
               UNDELIV :{" "}
               {
                 //@ts-ignore
-                status["UNDELIV"] ? status["UNDELIV"] : 0
+                status["UNDELIV"]
+                  ? //@ts-ignore
+                    status["UNDELIV"]
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                  : 0
               }
             </p>
-            <div>Total : {total}</div>
+            <div>
+              Total : {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            </div>
           </div>
           {res.length !== 0 ? (
             <TableTemplateData data={res} />

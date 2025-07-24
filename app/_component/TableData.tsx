@@ -77,7 +77,13 @@ export default function TableTemplateData({ data, type, user }: any) {
                 if (columnKey === "date") {
                   return <TableCell>{formattedDate}</TableCell>;
                 }
-                return <TableCell>{getKeyValue(item, columnKey)}</TableCell>;
+                return (
+                  <TableCell>
+                    {getKeyValue(item, columnKey)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  </TableCell>
+                );
               }}
             </TableRow>
           )}
