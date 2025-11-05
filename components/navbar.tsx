@@ -80,7 +80,7 @@ export const Navbar = () => {
                   <img src={"/img/smsre.png"} />
                 </div>
                 {/* <Logo /> */}
-                <p className="font-bold text-inherit">SMS123</p>
+                <p className="font-bold text-inherit">OTP</p>
                 <p></p>
               </NextLink>
             </NavbarBrand>

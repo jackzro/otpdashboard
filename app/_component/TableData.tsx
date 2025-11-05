@@ -11,8 +11,24 @@ import {
   Pagination,
   getKeyValue,
 } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
+
+// Define the expected data shape
+interface OtpRequest {
+  id: number;
+  status: string;
+  app: { id: number; name: string; code: string };
+}
+
+interface PhoneNumberData {
+  id: string;
+  phone_number: string;
+  otpRequests: OtpRequest[];
+}
 
 export default function TableTemplateData({ data, type, user }: any) {
+  const router = useRouter();
   const [page, setPage] = React.useState(1);
 
   const rowsPerPage = 10;
@@ -25,6 +41,11 @@ export default function TableTemplateData({ data, type, user }: any) {
 
     return data.slice(start, end);
   }, [page, data]);
+
+  const getStatus = (otpRequests: any[], appName: string) => {
+    const match = otpRequests.find((r) => r.app.name.toLowerCase() === appName);
+    return match ? match.status : "-";
+  };
 
   return (
     <div className="">
@@ -49,42 +70,59 @@ export default function TableTemplateData({ data, type, user }: any) {
         }}
       >
         <TableHeader>
-          <TableColumn key="date">Date</TableColumn>
-          <TableColumn key="row_count">Total</TableColumn>
-          {type === "voiceotp" ? (
-            <>
-              {user.username === "admin" && (
-                <TableColumn key="detik">Detik</TableColumn>
-              )}
-
-              <TableColumn key="success_count">Success</TableColumn>
-            </>
-          ) : (
-            <></>
-          )}
+          <TableColumn key="phone_number">Phone Number</TableColumn>
+          <TableColumn key="instagram">Instagram</TableColumn>
+          <TableColumn key="facebook">Facebook</TableColumn>
+          <TableColumn key="tiktok">TikTok</TableColumn>
+          <TableColumn key="twitter">Twitter</TableColumn>
+          <TableColumn key="action">Action</TableColumn>
         </TableHeader>
         <TableBody items={items}>
           {(item): any => (
             //@ts-ignore
-            <TableRow key={item?.date}>
-              {(columnKey) => {
-                //@ts-ignore
-                const dateTimeString = item.date;
-                const dateObj = new Date(dateTimeString);
-                dateObj.setDate(dateObj.getDate());
-                const formattedDate = dateObj.toISOString().split("T")[0];
-                //@ts-ignore
-                if (columnKey === "date") {
-                  return <TableCell>{formattedDate}</TableCell>;
+            <TableRow key={item.id}>
+              <TableCell>
+                {
+                  //@ts-ignore
+                  item.phone_number
                 }
-                return (
-                  <TableCell>
-                    {getKeyValue(item, columnKey)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                  </TableCell>
-                );
-              }}
+              </TableCell>
+              <TableCell>
+                {
+                  //@ts-ignore
+                  getStatus(item.otpRequests, "instagram")
+                }
+              </TableCell>
+              <TableCell>
+                {
+                  //@ts-ignore
+                  getStatus(item.otpRequests, "facebook")
+                }
+              </TableCell>
+              <TableCell>
+                {
+                  //@ts-ignore
+                  getStatus(item.otpRequests, "tiktok")
+                }
+              </TableCell>
+              <TableCell>
+                {
+                  //@ts-ignore
+                  getStatus(item.otpRequests, "twitter")
+                }
+              </TableCell>
+              <TableCell>
+                <Button
+                  color="primary"
+                  size="sm"
+                  onClick={
+                    //@ts-ignore
+                    () => router.push(`/numbers/${item.id}`)
+                  }
+                >
+                  View Details
+                </Button>
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
