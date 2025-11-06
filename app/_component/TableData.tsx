@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
+import { Input } from "@nextui-org/input";
 
 // Define the expected data shape
 interface OtpRequest {
@@ -30,17 +31,35 @@ interface PhoneNumberData {
 export default function TableTemplateData({ data, type, user }: any) {
   const router = useRouter();
   const [page, setPage] = React.useState(1);
+  const [search, setSearch] = React.useState("");
 
   const rowsPerPage = 10;
 
-  const pages = Math.ceil(data.length / rowsPerPage);
+  const filteredData = React.useMemo(() => {
+    if (!search) return data;
+    const q = search.toLowerCase();
+    return data.filter((item: any) => {
+      const phone = String(item?.phone_number ?? "").toLowerCase();
+      // Also allow matching any app name or status text if present
+      const statuses = Array.isArray(item?.otpRequests)
+        ? item.otpRequests
+            .map((r: any) =>
+              `${r?.app?.name ?? ""} ${r?.status ?? ""}`.toLowerCase()
+            )
+            .join(" ")
+        : "";
+      return phone.includes(q) || statuses.includes(q);
+    });
+  }, [data, search]);
+
+  const pages = Math.ceil(filteredData.length / rowsPerPage) || 1;
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return data.slice(start, end);
-  }, [page, data]);
+    return filteredData.slice(start, end);
+  }, [page, filteredData]);
 
   const getStatus = (otpRequests: any[], appName: string) => {
     const match = otpRequests.find((r) => r.app.name.toLowerCase() === appName);
@@ -49,6 +68,19 @@ export default function TableTemplateData({ data, type, user }: any) {
 
   return (
     <div className="">
+      <div className="flex items-center justify-between mb-3">
+        <Input
+          size="sm"
+          variant="bordered"
+          placeholder="Search by number or status..."
+          value={search}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
+          className="max-w-xs"
+        />
+      </div>
       <Table
         className=""
         aria-label="Example table with client side pagination"

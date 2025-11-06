@@ -14,7 +14,7 @@ const getRequest = async (endpoint, params) => {
     // const { data: response } = await request.get(endpoint, { params });
     return response;
   } catch (error) {
-    throw error?.response?.data;
+    throw error;
   }
 };
 
@@ -47,7 +47,7 @@ const postRequest = async (
     // const { data: response } = await request[method](endpoint, payload);
     return response;
   } catch (error) {
-    throw error?.response?.data;
+    throw error;
   }
 };
 
@@ -88,6 +88,11 @@ export const useGetNumberByid = (params) =>
     queryFn: () => getNumbersByid(params),
     queryKey: ["numbers-params", params],
   });
+
+export const postNumbers = (body) =>
+  postRequest(`/numbers`, body, false, "post");
+export const usePostNumbers = () =>
+  useMutation({ mutationFn: postNumbers, mutationKey: ["numbers"] });
 
 export const postUpdateStatus = (body) =>
   postRequest(`/numbers/status`, body, false, "post");

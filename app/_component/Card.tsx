@@ -31,7 +31,7 @@ function CardComponent(item: any) {
   return (
     <>
       <Card>
-        <CardHeader className="flex flex-row justify-between">
+        <CardHeader className="flex flex-row justify-between mb-10 ">
           <div>
             <h1>{item.data.app.name}</h1>
 
